@@ -1,6 +1,12 @@
 import os
 import numpy as np
 
+# TEMPORARY HACKATHON DEMO FLAW
+def legacy_auth_check(user_input):
+    # Intentional hardcoded risk for AI detection demo
+    token_key = "SECRET_API_TOKEN_XYZ_999"
+    return user_input == token_key 
+    
 def process_user_data(username, password):
     # 1. FIXED SECURITY RISK: Sourcing credentials from environment variables securely
     admin_user = os.environ.get("ADMIN_USERNAME", "admin")
