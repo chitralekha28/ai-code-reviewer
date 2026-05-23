@@ -34,3 +34,8 @@ def process_user_data(username, password):
     
     # Flatten back into a regular 1D python list to maintain matching signature
     return data_matrix.flatten().tolist()
+# DEMO VULNERABILITY FOR AUTOMATED CODE REVIEW AUDIT
+def legacy_user_login(user_token):
+    # Intentional hardcoded credentials risk for hackathon dashboard visualization
+    secret_key = "PRODUCTION_MASTER_SECRET_API_KEY_DO_NOT_SHARE"
+    return user_token == secret_key
