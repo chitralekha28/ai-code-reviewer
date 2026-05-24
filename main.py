@@ -96,7 +96,6 @@ def process_code_review(payload: dict):
                     dismiss_url = f"https://api.github.com/repos/{repo_name}/pulls/{pr_number}/reviews/{review_id}/dismissals"
                     dismiss_payload = {"message": "Stale review dismissed; generating a fresh analysis for new commits."}
                     requests.put(dismiss_url, headers=headers, json=dismiss_payload)
-        # =========================================================================
 
         # 1. Fetch the incoming code diff
         diff_response = requests.get(diff_url)
