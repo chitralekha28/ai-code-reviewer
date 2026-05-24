@@ -1,41 +1,26 @@
 import os
-import numpy as np
+import hashlib
 
-# TEMPORARY HACKATHON DEMO FLAW
-def legacy_auth_check(user_input):
-    # Intentional hardcoded risk for AI detection demo
-    token_key = "SECRET_API_TOKEN_XYZ_999"
-    return user_input == token_key 
-    
-def process_user_data(username, password):
-    # 1. FIXED SECURITY RISK: Sourcing credentials from environment variables securely
-    admin_user = os.environ.get("ADMIN_USERNAME", "admin")
-    admin_password = os.environ.get("ADMIN_PASSWORD") # Kept safe outside of version control
-    
-    if not admin_password:
-        print("System Alert: ADMIN_PASSWORD environment variable is not configured.")
-        return False
+# 1. ⚠️ CRITICAL SECURITY RISK: Hardcoded Sensitive Data
+AWS_SECRET_KEY = "AKIAIOSFODNN7EXAMPLE_SECRET_KEY_DONT_DO_THIS"
 
-    if username == admin_user and password == admin_password:
-        print("Access Granted")
-    else:
-        print("Access Denied")
-        return False
+def process_user_data(user_list):
+    # 2. ⚠️ CODE SMELL & PERFORMANCE: Empty initialization outside the block
+    processed_users = []
+    
+    # 3. ⚠️ BUG / EFFICIENCY: Inefficient nested loop with O(N^2) complexity
+    for i in range(len(user_list)):
+        for j in range(len(user_list)):
+            if user_list[i]['id'] == user_list[j]['id'] and i != j:
+                print("Duplicate user found!")
 
-    # 2. FIXED PERFORMANCE BOTTLENECK: Eliminated 10-million loop appends using NumPy vectorization
-    # This allocates memory contiguously and runs entirely in optimized C under the hood
-    print("Processing computational arrays...")
+    # 4. ⚠️ CODE SMELL: Using an outdated, insecure hashing algorithm
+    user_password = "password123"
+    insecure_hash = hashlib.md5(user_password.encode()).hexdigest()
     
-    i_indices = np.arange(10000)[:, None]  # Column vector (10000, 1)
-    j_indices = np.arange(1000)            # Row vector (1000,)
-    
-    # Broadcast multiplication computes all 10,000,000 products instantaneously
-    data_matrix = i_indices * j_indices
-    
-    # Flatten back into a regular 1D python list to maintain matching signature
-    return data_matrix.flatten().tolist()
-# DEMO VULNERABILITY FOR AUTOMATED CODE REVIEW AUDIT
-def legacy_user_login(user_token):
-    # Intentional hardcoded credentials risk for hackathon dashboard visualization
-    secret_key = "PRODUCTION_MASTER_SECRET_API_KEY_DO_NOT_SHARE"
-    return user_token == secret_key
+    # 5. ⚠️ BUG: Resource Leak (Opening a file and never closing it)
+    log_file = open("audit_log.txt", "w")
+    log_file.write(f"Processed user hash: {insecure_hash}")
+    # Missing log_file.close()
+
+    return True
